@@ -1,317 +1,339 @@
-# TradingAgents 中文增强版
+# TradeFlow - 多智能体股票分析系统
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-cn--0.1.15-green.svg)](./VERSION)
-[![Documentation](https://img.shields.io/badge/docs-中文文档-green.svg)](./docs/)
-[![Original](https://img.shields.io/badge/基于-TauricResearch/TradingAgents-orange.svg)](https://github.com/TauricResearch/TradingAgents)
+> **清华大学经济管理学院（SEM）金融科技道路课程 - 课程Demo**
 
->
-> 🎓 **学习中心**: AI基础 | 提示词工程 | 模型选择 | 多智能体分析原理 | 风险与局限 | 源项目与论文 | 实战教程（部分为外链） | 常见问题
-> 🎯 **核心功能**: 原生OpenAI支持 | Google AI全面集成 | 自定义端点配置 | 智能模型选择 | 多LLM提供商支持 | 模型选择持久化 | Docker容器化部署 | 专业报告导出 | 完整A股支持 | 中文本地化
+TradeFlow 是一个基于多智能体协作和大语言模型的智能股票分析系统，通过模拟真实交易公司的团队协作模式，实现全面的股票研究与分析。
 
-面向中文用户的**多智能体与大模型股票分析学习平台**。帮助你系统化学习如何使用多智能体交易框架与 AI 大模型进行合规的股票研究与策略实验，不提供实盘交易指令，平台定位为学习与研究用途。
+## 📖 项目简介
 
-## 🙏 致敬源项目
+TradeFlow 采用多智能体架构，将不同专业背景的分析师、研究员、交易员和风险管理人员数字化为AI智能体，通过协作机制完成股票分析任务。系统支持A股、港股、美股三大市场，提供从技术分析到基本面分析、从新闻情绪到社交媒体的全方位分析能力。
 
-感谢 [Tauric Research](https://github.com/TauricResearch) 团队创造的革命性多智能体交易框架 [TradingAgents](https://github.com/TauricResearch/TradingAgents)！
+### 核心特性
 
-**🎯 我们的定位与使命**: 专注学习与研究，提供中文化学习中心与工具，合规友好，支持 A股/港股/美股 的分析与教学，推动 AI 金融技术在中文社区的普及与正确使用。
+- 🤖 **多智能体协作**：市场分析师、基本面分析师、新闻分析师、社媒分析师并行工作
+- 📊 **多维度分析**：技术分析、基本面分析、新闻分析、情绪分析
+- 🔄 **结构化辩论**：看涨/看跌研究员进行观点交锋，形成投资共识
+- ⚠️ **风险管理**：多层次风险评估和动态风险控制
+- 🌐 **多市场支持**：A股、港股、美股全覆盖
+- 🎨 **现代化界面**：Vue 3 + Element Plus 打造的现代化Web界面
 
-## 🎉 v1.0.0-preview 版本上线 - 全新架构升级
+## 🏗️ 系统架构
 
-> 🚀 **重磅发布**: v1.0.0-preview 版本现已正式！全新的 FastAPI + Vue 3 架构，带来企业级的性能和体验！
+### 整体架构
 
-### ✨ 核心特性
+TradeFlow 采用前后端分离的微服务架构：
 
-#### 🏗️ **全新技术架构**
-- **后端升级**: 从 Streamlit 迁移到 FastAPI，提供更强大的 RESTful API
-- **前端重构**: 采用 Vue 3 + Element Plus，打造现代化的单页应用
-- **数据库优化**: MongoDB + Redis 双数据库架构，性能提升 10 倍
-- **容器化部署**: 完整的 Docker 多架构支持（amd64 + arm64）
+```
+┌─────────────────┐
+│   Web Frontend  │  Vue 3 + Element Plus
+│   (Vue 3)       │
+└────────┬────────┘
+         │ REST API / WebSocket
+┌────────▼────────┐
+│  FastAPI Backend│  Python + FastAPI
+│   (Python)      │
+└────────┬────────┘
+         │
+    ┌────┴────┬──────────┬──────────┐
+    │         │          │          │
+┌───▼───┐ ┌──▼───┐ ┌───▼───┐ ┌───▼───┐
+│MongoDB│ │Redis │ │ LLM   │ │Data   │
+│       │ │Cache │ │Provider│ │Source │
+└───────┘ └──────┘ └───────┘ └───────┘
+```
 
-#### 🎯 **企业级功能**
-- **用户权限管理**: 完整的用户认证、角色管理、操作日志系统
-- **配置管理中心**: 可视化的大模型配置、数据源管理、系统设置
-- **缓存管理系统**: 智能缓存策略，支持 MongoDB/Redis/文件多级缓存
-- **实时通知系统**: SSE+WebSocket 双通道推送，实时跟踪分析进度和系统状态
-- **批量分析功能**: 支持多只股票同时分析，提升工作效率
-- **智能股票筛选**: 基于多维度指标的股票筛选和排序系统
-- **自选股管理**: 个人自选股收藏、分组管理和跟踪功能
-- **个股详情页**: 完整的个股信息展示和历史分析记录
-- **模拟交易系统**: 虚拟交易环境，验证投资策略效果
+### 多智能体工作流
 
-#### 🤖 **智能分析增强**
-- **动态供应商管理**: 支持动态添加和配置 LLM 供应商
-- **模型能力管理**: 智能模型选择，根据任务自动匹配最佳模型
-- **多数据源同步**: 统一的数据源管理，支持 Tushare、AkShare、BaoStock
-- **报告导出功能**: 支持 Markdown/Word/PDF 多格式专业报告导出
+系统通过 LangGraph 构建智能体工作流，实现以下分析流程：
 
-#### � **重大Bug修复**
-- **技术指标计算修复**: 彻底解决市场分析师技术指标计算不准确问题
-- **基本面数据修复**: 修复基本面分析师PE、PB等关键财务数据计算错误
-- **死循环问题修复**: 解决部分用户在分析过程中触发的无限循环问题
-- **数据一致性优化**: 确保所有分析师使用统一、准确的数据源
+1. **分析师团队**（并行执行）
+   - 📈 市场分析师：技术指标、价格趋势、市场情绪
+   - 📊 基本面分析师：财务数据、业务模式、竞争优势
+   - 📰 新闻分析师：新闻事件、公告、宏观影响
+   - 💬 社媒分析师：社交媒体情绪、投资者心理
 
-#### �🐳 **Docker 多架构支持**
-- **跨平台部署**: 支持 x86_64 和 ARM64 架构（Apple Silicon、树莓派、AWS Graviton）
-- **GitHub Actions**: 自动化构建和发布 Docker 镜像
-- **一键部署**: 完整的 Docker Compose 配置，5 分钟快速启动
+2. **研究员辩论**
+   - 🐂 看涨研究员：乐观角度、增长潜力
+   - 🐻 看跌研究员：悲观角度、风险识别
+   - 👔 研究经理：辩论主持、共识形成
 
-### 📊 技术栈升级
+3. **交易决策**
+   - 💼 交易员：制定交易策略、仓位管理
 
-| 组件 | v0.1.x | v1.0.0-preview |
-|------|--------|----------------|
-| **后端框架** | Streamlit | FastAPI + Uvicorn |
-| **前端框架** | Streamlit | Vue 3 + Vite + Element Plus |
-| **数据库** | 可选 MongoDB | MongoDB + Redis |
-| **API 架构** | 单体应用 | RESTful API + WebSocket |
-| **部署方式** | 本地/Docker | Docker 多架构 + GitHub Actions |
+4. **风险评估**
+   - ⚠️ 风险评估团队：多层次风险分析
+   - 🎯 风险经理：最终风险决策
 
+## 🖼️ 系统展示
 
+### 主界面
 
-#### 📥 安装部署
+![TradeFlow 主界面](logs/assets/tradeflow_1.png)
 
-**三种部署方式，任选其一**：
+系统主界面提供清晰的分析流程和实时进度跟踪，支持多种分析级别选择。
 
-| 部署方式 | 适用场景 | 难度 | 文档链接 |
-|---------|---------|------|---------|
-| 🟢 **绿色版** | Windows 用户、快速体验 | ⭐ 简单 | [绿色版安装指南](https://mp.weixin.qq.com/s/eoo_HeIGxaQZVT76LBbRJQ) |
-| 🐳 **Docker版** | 生产环境、跨平台 | ⭐⭐ 中等 | [Docker 部署指南](https://mp.weixin.qq.com/s/JkA0cOu8xJnoY_3LC5oXNw) |
-| 💻 **本地代码版** | 开发者、定制需求 | ⭐⭐⭐ 较难 | [本地安装指南](https://mp.weixin.qq.com/s/cqUGf-sAzcBV19gdI4sYfA) |
+### 分析结果
 
-⚠️ **重要提醒**：在分析股票之前，请按相关文档要求，将股票数据同步完成，否则分析结果将会出现数据错误。
+![TradeFlow 分析结果](logs/assets/tradeflow_2.png)
 
+分析结果页面展示完整的股票分析报告，包括投资建议、风险评分、模型置信度等关键信息。
 
+### 系统架构图
 
-#### 📚 使用指南
+![多智能体系统架构](logs/assets/framework.png)
 
-在使用前，建议先阅读详细的使用指南：
-- **[0、📘 TradingAgents-CN v1.0.0-preview 快速入门视频](https://www.bilibili.com/video/BV1i2CeBwEP7/?vd_source=5d790a5b8d2f46d2c10fd4e770be1594)**
+完整的系统架构展示了从输入触发到输出生成的完整数据流和组件交互。
 
-- **[1、📘 TradingAgents-CN v1.0.0-preview 使用指南](https://mp.weixin.qq.com/s/ppsYiBncynxlsfKFG8uEbw)**
-- **[2、📘 使用 Docker Compose 部署TradingAgents-CN v1.0.0-preview（完全版）](https://mp.weixin.qq.com/s/JkA0cOu8xJnoY_3LC5oXNw)**
-- **[3、📘 从 Docker Hub 更新 TradingAgents‑CN 镜像](https://mp.weixin.qq.com/s/WKYhW8J80Watpg8K6E_dSQ)**
-- **[4、📘 TradingAgents-CN v1.0.0-preview绿色版安装和升级指南](https://mp.weixin.qq.com/s/eoo_HeIGxaQZVT76LBbRJQ)**
-- **[5、📘 TradingAgents-CN v1.0.0-preview绿色版端口配置说明](https://mp.weixin.qq.com/s/o5QdNuh2-iKkIHzJXCj7vQ)**
-- **[6、📘 TradingAgents v1.0.0-preview 源码版安装手册（修订版）](https://mp.weixin.qq.com/s/cqUGf-sAzcBV19gdI4sYfA)**
-- **[7、📘 TradingAgents v1.0.0-preview 源码安装视频教程](https://www.bilibili.com/video/BV1FxCtBHEte/?vd_source=5d790a5b8d2f46d2c10fd4e770be1594)**
+## 🚀 快速开始
 
+### 环境要求
 
-使用指南包含：
-- ✅ 完整的功能介绍和操作演示
-- ✅ 详细的配置说明和最佳实践
-- ✅ 常见问题解答和故障排除
-- ✅ 实际使用案例和效果展示
+- Python >= 3.10
+- Node.js >= 18.0.0
+- MongoDB >= 4.4
+- Redis >= 6.0
 
-#### 关注公众号
+### 安装步骤
 
-1. **关注公众号**: 微信搜索 **"TradingAgents-CN"** 并关注
-2. 公众号每天推送项目最新进展和使用教程
+#### 1. 克隆项目
 
+```bash
+git clone <repository-url>
+cd TradeFlow
+```
 
-- **微信公众号**: TradingAgents-CN（推荐）
+#### 2. 后端设置
+
+```bash
+# 安装Python依赖
+pip install -r requirements.txt
 
-  <img src="assets/wexin.png" alt="微信公众号" width="200"/>
+# 或使用 uv
+uv pip install -r requirements.txt
+```
 
+#### 3. 前端设置
 
-## 🆚 中文增强特色
+```bash
+cd frontend
+npm install
+```
 
-**相比原版新增**: 智能新闻分析 | 多层次新闻过滤 | 新闻质量评估 | 统一新闻工具 | 多LLM提供商集成 | 模型选择持久化 | 快速切换按钮 | | 实时进度显示 | 智能会话管理 | 中文界面 | A股数据 | 国产LLM | Docker部署 | 专业报告导出 | 统一日志管理 | Web配置界面 | 成本优化
+#### 4. 配置环境变量
 
-## 📢 招募测试志愿者
+创建 `.env` 文件并配置必要的环境变量：
 
-### 🎯 我们需要你的帮助！
+```env
+# 数据库配置
+MONGODB_URL=mongodb://localhost:27017
+REDIS_URL=redis://localhost:6379
 
-TradingAgentsCN 已经获得 **13,000+ stars**，但一直由我一个人开发维护。每次发布新版本时，尽管我会尽力测试，但仍然会有一些隐藏的 bug 没有被发现。
+# LLM配置（选择一种或多种）
+OPENAI_API_KEY=your_openai_key
+GOOGLE_API_KEY=your_google_key
+DASHSCOPE_API_KEY=your_dashscope_key
+```
 
-**我需要你的帮助来让这个项目变得更好！**
+#### 5. 启动服务
 
-### 🙋 我们需要什么样的志愿者？
+**方式一：使用启动脚本**
 
-- ✅ 对股票分析或 AI 应用感兴趣
-- ✅ 愿意在新版本发布前进行测试
-- ✅ 能够清晰描述遇到的问题
-- ✅ 每周可以投入 2-4 小时（弹性时间）
+```bash
+# 启动所有服务
+./start_all.sh
+```
 
-**不需要编程经验！** 功能测试、文档测试、用户体验测试都非常有价值。
+**方式二：手动启动**
 
-### 🎁 你将获得什么？
+```bash
+# 终端1：启动后端
+python -m app
 
-1. **优先体验权** - 提前体验新功能和新版本
-2. **技术成长** - 深入了解多智能体系统和 LLM 应用开发
-3. **社区认可** - 在 README 和发布说明中致谢，获得 "Core Tester" 标签
-4. **开源贡献** - 为 13,000+ stars 的项目做出实质性贡献
-5. **未来机会** - 如果项目商业化，可能会有相应的报酬
+# 终端2：启动前端
+cd frontend
+npm run dev
+```
 
-### 🚀 如何加入？
+**方式三：使用Docker Compose**
 
-**方式一：微信公众号申请（推荐）**
-1. 关注微信公众号：**TradingAgentsCN**
-2. 在公众号菜单选择"测试申请"菜单
-3. 填写申请信息
+```bash
+docker-compose up -d
+```
 
-**方式二：邮件申请**
-- 发送邮件到：hsliup@163.com
-- 主题：测试志愿者申请
+### 访问系统
 
-### 📋 测试内容示例
+- 前端界面：http://localhost:3000
+- 后端API：http://localhost:8000
+- API文档：http://localhost:8000/docs
 
-- **日常测试**（每周 2-4 小时）：测试新功能和 bug 修复，在不同环境下验证功能
-- **版本发布前测试**（每月 1-2 次）：完整的功能回归测试、安装和部署流程测试
+## 📁 项目结构
 
-### 🌟 特别需要的测试方向
+```
+TradeFlow/
+├── app/                    # FastAPI 后端应用
+│   ├── core/              # 核心配置和数据库
+│   ├── routers/           # API 路由
+│   ├── services/          # 业务逻辑服务
+│   ├── models/            # 数据模型
+│   └── worker/            # 后台任务
+├── frontend/              # Vue 3 前端应用
+│   ├── src/
+│   │   ├── components/    # 组件
+│   │   ├── views/         # 页面
+│   │   └── api/           # API 调用
+├── tradingagents/         # 多智能体核心框架
+│   ├── graph/             # LangGraph 工作流
+│   ├── agents/            # 智能体定义
+│   └── tools/             # 分析工具
+├── config/                # 配置文件
+├── docs/                  # 项目文档
+├── examples/              # 示例代码
+└── tests/                 # 测试文件
+```
 
-- 🪟 **Windows 用户** - 测试 Windows 安装程序和绿色版
-- 🍎 **macOS 用户** - 测试 macOS 兼容性
-- 🐧 **Linux 用户** - 测试 Linux 兼容性
-- 🐳 **Docker 用户** - 测试 Docker 部署
-- 📊 **多市场用户** - 测试 A 股、港股、美股数据源
-- 🤖 **多 LLM 用户** - 测试不同 LLM 提供商（OpenAI/Gemini/DeepSeek/通义千问等）
+## 🎯 主要功能
 
-**详细信息**: 查看完整招募公告 → [📢 测试志愿者招募](docs/community/CALL_FOR_TESTERS.md)
+### 1. 股票分析
 
-## 🤝 贡献指南
+- **单股分析**：对单只股票进行深度分析
+- **批量分析**：同时分析多只股票
+- **历史分析**：查看历史分析记录
 
-我们欢迎各种形式的贡献：
+### 2. 股票筛选
 
-### 贡献类型
+- 基于多维度指标的智能筛选
+- 自定义筛选条件
+- 筛选结果导出
 
-- 🐛 **Bug修复** - 发现并修复问题
-- ✨ **新功能** - 添加新的功能特性
-- 📚 **文档改进** - 完善文档和教程
-- 🌐 **本地化** - 翻译和本地化工作
-- 🎨 **代码优化** - 性能优化和代码重构
+### 3. 自选股管理
 
-### 贡献流程
+- 个人自选股收藏
+- 分组管理
+- 实时跟踪
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
+### 4. 报告导出
 
-### 📋 查看贡献者
+- Markdown 格式
+- Word 文档
+- PDF 报告
 
-查看所有贡献者和详细贡献内容：**[🤝 贡献者名单](CONTRIBUTORS.md)**
+### 5. Banana PPT
 
-## 📄 许可证
+集成 Banana Slides 功能，支持将分析结果自动生成PPT演示文稿。
 
-本项目采用**混合许可证**模式，详见 [LICENSE](LICENSE) 文件：
+## 🛠️ 技术栈
 
-### 🔓 开源部分（Apache 2.0）
-- **适用范围**：除 `app/` 和 `frontend/` 外的所有文件
-- **权限**：商业使用 ✅ | 修改分发 ✅ | 私人使用 ✅ | 专利使用 ✅
-- **条件**：保留版权声明 ❗ | 包含许可证副本 ❗
+### 后端
+- **框架**：FastAPI + Uvicorn
+- **数据库**：MongoDB + Redis
+- **AI框架**：LangGraph + LangChain
+- **数据源**：Tushare、AkShare、BaoStock、Yahoo Finance
 
-### 🔒 专有部分（需商业授权）
-- **适用范围**：`app/`（FastAPI后端）和 `frontend/`（Vue前端）目录
-- **商业使用**：需要单独许可协议
-- **联系授权**：[hsliup@163.com](mailto:hsliup@163.com)
+### 前端
+- **框架**：Vue 3 + Vite
+- **UI组件**：Element Plus
+- **状态管理**：Pinia
+- **HTTP客户端**：Axios
 
-### 📋 许可证选择建议
-- **个人学习/研究**：可自由使用全部功能
-- **商业应用**：请联系获取专有组件授权
-- **定制开发**：欢迎咨询商业合作方案
+### AI/LLM
+- **支持模型**：OpenAI、Google Gemini、阿里通义千问、DeepSeek、Anthropic Claude
+- **工作流引擎**：LangGraph
+- **工具调用**：LangChain Tools
 
-## 🙏 致谢与感恩
+## 📚 使用指南
 
-### 🌟 向源项目开发者致敬
+### 基本使用流程
 
-我们向 [Tauric Research](https://github.com/TauricResearch) 团队表达最深的敬意和感谢：
+1. **数据同步**：首次使用前，需要同步股票基础数据
+   ```bash
+   # 通过Web界面：设置 -> 数据同步
+   # 或通过CLI
+   python -m cli.main --sync
+   ```
 
-- **🎯 愿景领导者**: 感谢您们在AI金融领域的前瞻性思考和创新实践
-- **💎 珍贵源码**: 感谢您们开源的每一行代码，它们凝聚着无数的智慧和心血
-- **🏗️ 架构大师**: 感谢您们设计了如此优雅、可扩展的多智能体框架
-- **💡 技术先驱**: 感谢您们将前沿AI技术与金融实务完美结合
-- **🔄 持续贡献**: 感谢您们持续的维护、更新和改进工作
+2. **配置LLM**：在设置页面配置LLM API密钥
 
-### 🤝 社区贡献者致谢
+3. **开始分析**：
+   - 选择"单股分析"
+   - 输入股票代码（如：688802）
+   - 选择分析级别
+   - 点击"开始分析"
 
-感谢所有为TradingAgents-CN项目做出贡献的开发者和用户！
+4. **查看结果**：分析完成后，在"分析报告"中查看详细结果
 
-详细的贡献者名单和贡献内容请查看：**[📋 贡献者名单](CONTRIBUTORS.md)**
+### 分析级别说明
 
-包括但不限于：
+- **3级分析**：基础分析，快速获取投资建议（约8-16分钟）
+- **4级分析**：深度分析，多轮辩论和深度研究（约6-11分钟）
 
-- 🐳 **Docker容器化** - 部署方案优化
-- 📄 **报告导出功能** - 多格式输出支持
-- 🐛 **Bug修复** - 系统稳定性提升
-- 🔧 **代码优化** - 用户体验改进
-- 📝 **文档完善** - 使用指南和教程
-- 🌍 **社区建设** - 问题反馈和推广
-- **🌍 开源贡献**: 感谢您们选择Apache 2.0协议，给予开发者最大的自由
-- **📚 知识分享**: 感谢您们提供的详细文档和最佳实践指导
+## 🔧 开发指南
 
-**特别感谢**：[TradingAgents](https://github.com/TauricResearch/TradingAgents) 项目为我们提供了坚实的技术基础。虽然Apache 2.0协议赋予了我们使用源码的权利，但我们深知每一行代码的珍贵价值，将永远铭记并感谢您们的无私贡献。
+### 运行测试
 
-### 🇨🇳 推广使命的初心
+```bash
+# 运行所有测试
+pytest tests/
 
-创建这个中文增强版本，我们怀着以下初心：
+# 运行特定测试
+pytest tests/test_analysis.py
+```
 
-- **🌉 技术传播**: 让优秀的TradingAgents技术在中国得到更广泛的应用
-- **🎓 教育普及**: 为中国的AI金融教育提供更好的工具和资源
-- **🤝 文化桥梁**: 在中西方技术社区之间搭建交流合作的桥梁
-- **🚀 创新推动**: 推动中国金融科技领域的AI技术创新和应用
+### 代码规范
 
-### 🌍 开源社区
+项目遵循 PEP 8 Python 代码规范，使用 Black 进行代码格式化。
 
-感谢所有为本项目贡献代码、文档、建议和反馈的开发者和用户。正是因为有了大家的支持，我们才能更好地服务中文用户社区。
+```bash
+# 格式化代码
+black app/ tradingagents/
 
-### 🤝 合作共赢
+# 检查代码
+flake8 app/ tradingagents/
+```
 
-我们承诺：
+## 📝 配置说明
 
-- **尊重原创**: 始终尊重源项目的知识产权和开源协议
-- **反馈贡献**: 将有价值的改进和创新反馈给源项目和开源社区
-- **持续改进**: 不断完善中文增强版本，提供更好的用户体验
-- **开放合作**: 欢迎与源项目团队和全球开发者进行技术交流与合作
+主要配置文件位于 `config/` 目录：
 
-## 📈 版本历史
+- `settings.json`：系统设置
+- `models.json`：LLM模型配置
+- `pricing.json`：模型定价信息
 
-- **v0.1.13** (2025-08-02): 🤖 原生OpenAI支持与Google AI生态系统全面集成 ✨ **最新版本**
-- **v0.1.12** (2025-07-29): 🧠 智能新闻分析模块与项目结构优化
-- **v0.1.11** (2025-07-27): 🤖 多LLM提供商集成与模型选择持久化
-- **v0.1.10** (2025-07-18): 🚀 Web界面实时进度显示与智能会话管理
-- **v0.1.9** (2025-07-16): 🎯 CLI用户体验重大优化与统一日志管理
-- **v0.1.8** (2025-07-15): 🎨 Web界面全面优化与用户体验提升
-- **v0.1.7** (2025-07-13): 🐳 容器化部署与专业报告导出
-- **v0.1.6** (2025-07-11): 🔧 阿里百炼修复与数据源升级
-- **v0.1.5** (2025-07-08): 📊 添加Deepseek模型支持
-- **v0.1.4** (2025-07-05): 🏗️ 架构优化与配置管理重构
-- **v0.1.3** (2025-06-28): 🇨🇳 A股市场完整支持
-- **v0.1.2** (2025-06-15): 🌐 Web界面和配置管理
-- **v0.1.1** (2025-06-01): 🧠 国产LLM集成
+详细配置说明请参考 [配置文档](config/README.md)。
 
-📋 **详细更新日志**: [CHANGELOG.md](./docs/releases/CHANGELOG.md)
+## ⚠️ 重要声明
 
-## 📞 联系方式
+**本系统仅用于研究和教育目的，不构成投资建议。**
 
-- **GitHub Issues**: [提交问题和建议](https://github.com/hsliuping/TradingAgents-CN/issues)
-- **邮箱**: hsliup@163.com
-- 项目ＱＱ群：1009816091
-- 项目微信公众号：TradingAgents-CN
-
-  <img src="assets/wexin.png" alt="微信公众号" width="200"/>
-
-- **原项目**: [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
-- **文档**: [完整文档目录](docs/)
-
-## ⚠️ 风险提示
-
-**重要声明**: 本框架仅用于研究和教育目的，不构成投资建议。
-
-- 📊 交易表现可能因多种因素而异
+- 📊 所有分析结果仅供参考
 - 🤖 AI模型的预测存在不确定性
 - 💰 投资有风险，决策需谨慎
 - 👨‍💼 建议咨询专业财务顾问
+
+## 📄 许可证
+
+本项目采用混合许可证模式：
+- 核心框架部分：Apache 2.0
+- 应用层部分：需商业授权
+
+详见 [LICENSE](LICENSE) 文件。
+
+## 🙏 致谢
+
+本项目基于 [TradingAgents](https://github.com/TauricResearch/TradingAgents) 项目开发，感谢 Tauric Research 团队的开源贡献。
+
+## 📞 联系方式
+
+如有问题或建议，请通过以下方式联系：
+
+- 项目文档：`docs/` 目录
+- 启动指南：[启动指南.md](启动指南.md)
 
 ---
 
 <div align="center">
 
-**🌟 如果这个项目对您有帮助，请给我们一个 Star！**
+**清华大学经济管理学院（SEM）金融科技道路课程**
 
-[⭐ Star this repo](https://github.com/hsliuping/TradingAgents-CN) | [🍴 Fork this repo](https://github.com/hsliuping/TradingAgents-CN/fork) | [📖 Read the docs](./docs/)
+**TradeFlow - 多智能体股票分析系统**
 
 </div>
