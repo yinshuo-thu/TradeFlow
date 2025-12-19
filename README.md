@@ -68,19 +68,19 @@ TradeFlow 采用前后端分离的微服务架构：
 
 ### 主界面
 
-![TradeFlow 主界面](logs/assets/tradeflow_1.png)
+![TradeFlow 主界面](assets/tradeflow_1.png)
 
 系统主界面提供清晰的分析流程和实时进度跟踪，支持多种分析级别选择。
 
 ### 分析结果
 
-![TradeFlow 分析结果](logs/assets/tradeflow_2.png)
+![TradeFlow 分析结果](assets/tradeflow_2.png)
 
 分析结果页面展示完整的股票分析报告，包括投资建议、风险评分、模型置信度等关键信息。
 
 ### 系统架构图
 
-![多智能体系统架构](logs/assets/framework.png)
+![多智能体系统架构](assets/framework.png)
 
 完整的系统架构展示了从输入触发到输出生成的完整数据流和组件交互。
 
