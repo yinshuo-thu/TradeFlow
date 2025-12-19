@@ -86,21 +86,30 @@ TradeFlow 采用前后端分离的微服务架构：
 
 ### Banana PPT 功能
 
+Banana PPT 功能可以将股票分析结果自动生成为专业的演示文稿，支持批量生成和自定义编辑。
+
 #### PPT 生成界面
 
 ![Banana PPT 生成界面](assets/banana_ppt_front.png)
 
-Banana PPT 功能可以将股票分析结果自动生成为专业的演示文稿，支持批量生成和自定义编辑。
+PPT 生成界面支持选择分析报告、自定义模板、批量生成图片等功能。
 
 #### PPT 生成示例
 
-<div align="center">
+以下展示了从股票分析报告自动生成的 PPT 示例，包含封面、技术面分析、基本面分析、情绪面分析、新闻面分析和投资规划等完整内容：
 
-![Banana PPT 示例1](assets/banana_ppt_example_1.png) ![Banana PPT 示例2](assets/banana_ppt_example_2.png) ![Banana PPT 示例3](assets/banana_ppt_example_3.png)
+| 示例1：封面与技术面 | 示例2：基本面与情绪面 | 示例3：新闻面与投资规划 |
+|:---:|:---:|:---:|
+| ![Banana PPT 示例1](assets/banana_ppt_example_1.png) | ![Banana PPT 示例2](assets/banana_ppt_example_2.png) | ![Banana PPT 示例3](assets/banana_ppt_example_3.png) |
 
-</div>
+生成的 PPT 包含：
+- 📊 **技术面分析**：趋势分析、关键水位、技术指标
+- 💼 **基本面分析**：公司定位、财务状况、估值指标、核心竞争力
+- 📰 **情绪面分析**：市场情绪、讨论热度、情绪分布
+- 📈 **新闻面分析**：核心新闻动态、关键事件、影响评估
+- 💡 **投资规划**：交易建议、风险提示、复盘提醒
 
-生成的 PPT 包含完整的技术面分析、基本面分析、情绪面分析和投资规划等内容，适合用于课程演示和报告展示。
+所有内容均基于多智能体分析结果自动生成，适合用于课程演示和报告展示。
 
 ## 🚀 快速开始
 
