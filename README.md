@@ -348,13 +348,6 @@ flake8 app/ tradingagents/
 
 本项目基于 [TradingAgents](https://github.com/TauricResearch/TradingAgents) 项目开发，感谢 Tauric Research 团队的开源贡献。
 
-## 📞 联系方式
-
-如有问题或建议，请通过以下方式联系：
-
-- 项目文档：`docs/` 目录
-- 启动指南：[启动指南.md](启动指南.md)
-
 ---
 
 <div align="center">
