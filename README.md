@@ -359,7 +359,7 @@ flake8 app/ tradingagents/
 
 <div align="center">
 
-**清华大学经济管理学院（SEM）金融科技道路课程**
+**金融科技导论 - 课程Demo**
 
 **TradeFlow - 多智能体股票分析系统**
 
