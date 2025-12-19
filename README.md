@@ -82,7 +82,25 @@ TradeFlow 采用前后端分离的微服务架构：
 
 ![多智能体系统架构](assets/framework.png)
 
-完整的系统架构展示了从输入触发到输出生成的完整数据流和组件交互。
+完整的系统架构展示了从输入触发到输出生成的完整数据流和组件交互，包括展示层、服务层、编排层、执行层和基础设施层。
+
+### Banana PPT 功能
+
+#### PPT 生成界面
+
+![Banana PPT 生成界面](assets/banana_ppt_front.png)
+
+Banana PPT 功能可以将股票分析结果自动生成为专业的演示文稿，支持批量生成和自定义编辑。
+
+#### PPT 生成示例
+
+<div align="center">
+
+![Banana PPT 示例1](assets/banana_ppt_example_1.png) ![Banana PPT 示例2](assets/banana_ppt_example_2.png) ![Banana PPT 示例3](assets/banana_ppt_example_3.png)
+
+</div>
+
+生成的 PPT 包含完整的技术面分析、基本面分析、情绪面分析和投资规划等内容，适合用于课程演示和报告展示。
 
 ## 🚀 快速开始
 
